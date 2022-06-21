@@ -1,52 +1,41 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated class="bg-positive" >
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="absolute-center">
+          Awesome TODO :)
         </q-toolbar-title>
 
       </q-toolbar>
     </q-header>
     <q-footer>
         <q-tabs
-        v-model="tab"
       >
           <q-route-tab
-          icon="list"
-          label="ToDo"
-          to="/"
-          />
-          <q-route-tab
-          icon="settings"
-          label="Settings"
-          to="/settings"
+          v-for="link in navs"
+          :key="link.title"
+          v-bind="link"
+          :label="link.title"
+          class="bg-positive"
           />
       </q-tabs>
     </q-footer>
     <q-drawer
       v-model="leftDrawerOpen"
+      :breakpoint="600"
       show-if-above
       bordered
+      class="bg-positive"
     >
-      <q-list>
+      <q-list dark>
         <q-item-label
           header
         >
           Navigation
         </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
+        <Navs
+          v-for="link in navs"
           :key="link.title"
           v-bind="link"
         />
@@ -59,7 +48,7 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+import Navs from 'components/Navs.vue'
 
 const linksList = [
   {
@@ -80,14 +69,14 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    Navs
   },
 
   setup () {
     const leftDrawerOpen = ref(false)
 
     return {
-      essentialLinks: linksList,
+      navs: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
@@ -96,3 +85,14 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+@media screen and (min-width: 600px) {
+  .q-footer {
+    display:none
+  }
+  .q-drawer .q-router-link--exact-active {
+    color: white;
+  }
+}
+</style>

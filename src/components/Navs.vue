@@ -20,7 +20,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: 'Navs',
   props: {
     title: {
       type: String,

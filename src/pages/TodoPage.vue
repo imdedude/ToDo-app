@@ -1,57 +1,57 @@
 <template>
   <q-page padding>
-  <ul>
-    <task
-      v-for="(task,index) in tasks"
-          :task="task"
-          :index="index"
-          :deleteTask="deleteTask"
-          :key="id"
+    <q-list
+      bordered separator
+      v-if="Object.keys(tasks).length"
     >
-    </task>
-  </ul>
+      <task
+        v-for="(task,key) in tasks"
+        :id="key"
+        :task="task"
+      ></task>
+    </q-list>
+
+    <div class="absolute-bottom q-mb-lg text-center">
+      <q-btn
+        @click="alert = true"
+        size="25px"
+        color="green"
+        dense
+        rounded
+        icon="add"
+      />
+    </div>
+    <q-dialog v-model="alert">
+      <add-task/>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 
 export default {
-    data() {
-      return {
-        tasks: [
-          {
-            id: 1,
-            name: "Get bananas",
-            dueDate: '2019-05-02',
-            dueTime: '18:30'
-          },
-          {
-            id: 2,
-            name: "Get apples",
-            dueDate: '2019-05-02',
-            dueTime: '18:30'
-          },
-          {
-            id: 3,
-            name: "Go to shop",
-            dueDate: '2019-05-02',
-            dueTime: '18:30'
-          },
-
-        ]
-      }
-    },
-  methods: {
-      deleteTask(index){
-        this.tasks.splice(index,1)
-      }
+  data() {
+    return {
+      alert: false
+    }
+  },
+  computed: {
+    ...mapGetters('tasks', ['tasks'])
   },
   components: {
-      'task' : require('components/Task.vue').default
-  }
+    'task': require('components/Task.vue').default,
+    'add-task': require('components/addTask.vue').default
+  },
+
 }
 </script>
 
 <style>
 
+.text-through {
+  text-decoration: line-through
+}
+
 </style>
+
